@@ -71,7 +71,7 @@ void loop() {
   display.setCursor(10, 0);
   display.setTextColor(SSD1306_WHITE);
   display.setTextSize(2);
-  display.println(Serial.readString());
+  display.println(Serial.readStringUntil('\n'));
   display.display();
   display.startscrollright(0x00, 0x0F);
   delay(4500);
