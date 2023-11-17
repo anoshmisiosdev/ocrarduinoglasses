@@ -5,32 +5,45 @@ import pytesseract
 from threading import Thread
 import cv2
 import serial
-ser = serial.Serial('/dev/ttyACM0')
-ser.baudrate = 9000
+import numpy as np
+
+#ser = serial.Serial('/dev/ttyACM0')
+#ser.baudrate = 9000
+def videomom(frame):
+    vc = cv2.VideoCapture(0)
+    ret, frame = vc.read()
+    cv2.imshow('Video', frame)
+
+def reader(frame):
+    cv2.imwrite('make.jpg', frame)
+    img = cv2.cvtColor(Image.open('make.jpg'), cv2.COLOR_BGR2GRAY)
+    text = pytesseract.image_to_string(img)
+    print(text)
+    #ser.write(bytes(text,'utf-8'))
+    time.sleep(3)
 cv2.namedWindow("preview")
 vc = cv2.VideoCapture(0)
 while(vc.isOpened()):
-    finished = False
-    ret,frame=vc.read()
-    def reader():
-        text = pytesseract.image_to_string(frame)
-        file = open('read.txt', 'w') 
-        file.write(text)
-        print(text)
-        file.close()
-        ser.write(bytes(text,'utf-8'))
-        time.sleep(3)
-    scan = Thread(target=reader)
-    scan.start()
-    cv2.imshow('Video',frame)
-    time.sleep(0.1)
-    if cv2.waitKey(1) & 0xFF ==ord('e'):
-        break
-    time.sleep(0.15)
-    scan.join
-
-
+    video = Thread()
 vc.release()
 cv2.destroyWindow("preview")
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
